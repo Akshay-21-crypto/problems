@@ -1,0 +1,80 @@
+//Rotated Array Search
+
+import java.util.*;
+
+class RotatedArraySearch
+{
+	public static void main(String[] args)
+	{
+		Scanner sc=new Scanner(System.in);
+		int n=sc.nextInt();
+		int[] a=new int[n];
+		for(int i=0;i<n;i++)
+			a[i]=sc.nextInt();
+		int k=sc.nextInt();
+		int idx=searchMax(a,n);
+		int i1=binarySearch(a,0,idx,k);
+		if(i1==-1)
+			i1=binarySearch(a,idx+1,n-1,k);
+		System.out.println(i1);
+	}
+	
+	public static int searchMax(int[] a,int n)
+	{
+		int l=0,h=n-1;
+		int p=-1;
+		while(l<=h)
+		{
+			int m=(l+h)/2;
+			if(m==0)
+			{
+				if(a[m]>a[m+1])
+				{
+					p=m;
+					break;
+				}
+				else
+					l=m+1;
+			}
+			else if(m==n-1)
+			{
+				if(a[m]>a[m-1])
+				{
+					p=m;
+					break;
+				}
+				else
+					h=m-1;
+			}
+			else if(a[m]>a[m-1] && a[m]>a[m+1])
+			{
+				p=m;
+				break;
+			}
+			else
+			{
+				if(a[m]<a[0])
+					h=m-1;
+				else
+					l=m+1;
+			}
+		}
+		return p;
+	}
+	
+	public static int binarySearch(int[] a,int l,int h,int k)
+	{
+		while(l<=h)
+		{
+			int m=(l+h)/2;
+			if(a[m]==k)
+				return m;
+			else if(k>a[m])
+				l=m+1;
+			else
+				h=m-1;
+		}
+		return -1;
+	}
+}
+	
